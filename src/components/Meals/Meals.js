@@ -1,4 +1,5 @@
 import React from 'react';
+import Cart from '../Cart/Cart';
 import Modal from '../Modal/Modal';
 import './Meals.css';
 
@@ -16,6 +17,11 @@ const Meals = () => {
             .then(res => res.json())
             .then(data => setModal(data.meals[0]))
     }
+    const [cart, setCart] = React.useState([]);
+    const addToCart = (idMeal) => {
+        const newCart = [...cart, idMeal];
+        setCart(newCart);
+    }
     return (
         <div>
             <h1 className='text-center text-xl mt-7 font-bold'>Available Meals</h1>
@@ -31,13 +37,13 @@ const Meals = () => {
                                 </div>
                                 <div className='flex justify-evenly items-center p-4'>
                                     <label htmlFor="my-modal-3" className="btn bg-green-500 text-white px-4 rounded-lg border-none" onClick={() => loadModal(meal.idMeal)}>Details</label>
-                                    <button className='bg-red-500 text-white px-4 py-2 rounded-lg'>Order Now</button>
+                                    <button className='bg-red-500 text-white px-4 py-2 rounded-lg' onClick={() => addToCart(meal)}>Order Now</button>
                                 </div>
                             </div>)
                     }
                 </div>
-                <div className='cart-container'>
-                    <h1 className='font-bold text-lg my-4'>Your Cart</h1>
+                <div>
+                    <Cart cart={cart}></Cart>
                 </div>
             </div>
             <Modal modal={modal}></Modal>
